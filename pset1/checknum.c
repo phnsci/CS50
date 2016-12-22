@@ -22,8 +22,8 @@ void clearbuffer()
 }
 
 /**
-	check if user enter valid integer number
-	@return input number if valid input, 0 if not valid
+	check if user enter a valid non-negative number
+	@return a string if valid input, a null if invalid
 */
 char* checkNum() {
 	char ch;											// handle individual user input
@@ -47,8 +47,9 @@ char* checkNum() {
 		// if not, clear stdin buffer and return 0
 		else
 		{
+			buffer[0] = 0x00;
 			clearbuffer();
-			return 0x00;
+			return buffer;
 		}
 	}
 
@@ -58,18 +59,33 @@ char* checkNum() {
 	return buffer;
 }
 
+
+/**
+	check if user enter a valid non-negative integer 
+	@return the integer if valid, 0 if not valid
+*/
 int getInt() 
 {
 	char *num;
 	num = checkNum();
 
+	if (num[0] == 0x00)
+		return 0;
+
 	return atoi(num);
 }
 
+/**
+	check if user enter a valid non-negative float
+	@return the float if valid, 0 if not valid
+*/
 float getFloat()
 {
 	char *num;
 	num = checkNum();
+
+	if (num[0] == 0x00)
+		return 0;
 
 	return atof(num);
 }	

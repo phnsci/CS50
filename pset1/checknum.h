@@ -3,6 +3,8 @@
 
 void clearbuffer();
 
+char* checkNum();
+
 int getInt();
 
 float getFloat();
