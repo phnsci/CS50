@@ -4,8 +4,7 @@
 
 int main() 
 {
-	int height = 0;
-	int check;
+	int height = 0;				// mario pyramid height
 
 	// get mario pyramid height
 	while (height == 0)
