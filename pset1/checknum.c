@@ -108,7 +108,6 @@ float getFloat() {
 
 	// null terminate buffer at the end
 	buffer[char_count] = 0x00;
-	printf("%s\n", buffer);	
 	return atof(buffer);
 }
 	
