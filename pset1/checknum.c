@@ -111,4 +111,3 @@ float getFloat() {
 	printf("%s\n", buffer);	
 	return atof(buffer);
 }
-	
