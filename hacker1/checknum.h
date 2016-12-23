@@ -7,6 +7,8 @@ char* checkNum();
 
 int getInt();
 
+long long getLongLong();
+
 float getFloat();
 
 #endif 
