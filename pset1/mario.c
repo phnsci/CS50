@@ -46,5 +46,8 @@ int main()
 	
 	printf("%s", pyramid);
 
+	// free memory
+	free(pyramid);
+
 	return 0;
 }
