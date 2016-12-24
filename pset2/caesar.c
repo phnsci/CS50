@@ -3,8 +3,6 @@
 #include <string.h>
 #include "mylib.h"
 
-int testValid(char *); 
-
 int main(int argc, char* argv[])
 {
 	int k = 0;			// caesar key
