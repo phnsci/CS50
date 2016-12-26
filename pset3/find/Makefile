@@ -1,17 +1,15 @@
-#
-# Makefile
-#
-# Computer Science 50
-# Problem Set 3
-#
+CC = gcc
+FLAGS = -ggdb3 -Wall -Werror -std=c11
+LIBDIR = ../../lib/
+INCDIR = ../../lib/
 
 all: find generate
 
 find: find.c helpers.c helpers.h
-	clang -ggdb3 -O0 -std=c11 -Wall -Werror -o find find.c helpers.c -lcs50 -lm
+	$(CC) $(FLAGS) -o find find.c helpers.c -I $(LIBDIR) -L $(INCDIR) -lcs50
 
 generate: generate.c
-	clang -ggdb3 -O0 -std=c11 -Wall -Werror -o generate generate.c
+	$(CC) $(FLAGS) -o generate generate.c -I $(LIBDIR) -L $(INCDIR) -lcs50
 
 clean:
 	rm -f *.o a.out core find generate
