@@ -5,7 +5,7 @@ INCDIR = ../../lib/
 
 all: find generate
 
-find: find.c helpers.c helpers.h
+find: find.c helpers.c helpers.h 
 	$(CC) $(FLAGS) -o find find.c helpers.c -I $(LIBDIR) -L $(INCDIR) -lcs50
 
 generate: generate.c
