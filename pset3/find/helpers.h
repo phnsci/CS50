@@ -18,3 +18,14 @@ bool search(int value, int values[], int n);
  * Sorts array of n values.
  */
 void sort(int values[], int n);
+
+
+/**
+	* Implements quicksort
+	*/
+void quickSort(int values[], int left, int right);
+
+/**
+	* Quicksort partition
+	*/
+int partition(int values[], int left, int right);
