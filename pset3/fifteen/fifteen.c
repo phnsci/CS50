@@ -268,7 +268,7 @@ bool won(void)
 	{
 		for (int j = 0; j < d; j++)
 		{
-			if (temp < board[i][j])
+			if (temp > board[i][j])
 				return false;
 			temp = board[i][j];
 		}
