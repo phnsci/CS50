@@ -42,96 +42,96 @@ bool won(void);
 
 int main(int argc, string argv[])
 {
-    // ensure proper usage
-    if (argc != 2)
-    {
-        printf("Usage: fifteen d\n");
-        return 1;
-    }
+	// ensure proper usage
+	if (argc != 2)
+	{
+		printf("Usage: fifteen d\n");
+		return 1;
+	}
 
-    // ensure valid dimensions
-    d = atoi(argv[1]);
-    if (d < DIM_MIN || d > DIM_MAX)
-    {
-        printf("Board must be between %i x %i and %i x %i, inclusive.\n",
-            DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
-        return 2;
-    }
+	// ensure valid dimensions
+	d = atoi(argv[1]);
+	if (d < DIM_MIN || d > DIM_MAX)
+	{
+		printf("Board must be between %i x %i and %i x %i, inclusive.\n",
+				DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
+		return 2;
+	}
 
-    // open log
-    FILE* file = fopen("log.txt", "w");
-    if (file == NULL)
-    {
-        return 3;
-    }
+	// open log
+	FILE* file = fopen("log.txt", "w");
+	if (file == NULL)
+	{
+		return 3;
+	}
 
-    // greet user with instructions
-    greet();
+	// greet user with instructions
+	greet();
 
-    // initialize the board
-    init();
+	// initialize the board
+	init();
 
-    // accept moves until game is won
-    while (true)
-    {
-        // clear the screen
-        clear();
+	// accept moves until game is won
+	while (true)
+	{
+		// clear the screen
+		clear();
 
-        // draw the current state of the board
-        draw();
+		// draw the current state of the board
+		draw();
 
-        // log the current state of the board (for testing)
-        for (int i = 0; i < d; i++)
-        {
-            for (int j = 0; j < d; j++)
-            {
-                fprintf(file, "%i", board[i][j]);
-                if (j < d - 1)
-                {
-                    fprintf(file, "|");
-                }
-            }
-            fprintf(file, "\n");
-        }
-        fflush(file);
+		// log the current state of the board (for testing)
+		for (int i = 0; i < d; i++)
+		{
+			for (int j = 0; j < d; j++)
+			{
+				fprintf(file, "%i", board[i][j]);
+				if (j < d - 1)
+				{
+						fprintf(file, "|");
+				}
+			}
+			fprintf(file, "\n");
+		}
+		fflush(file);
 
-        // check for win
-        if (won())
-        {
-            printf("ftw!\n");
-            break;
-        }
+		// check for win
+		if (won())
+		{
+			printf("ftw!\n");
+			break;
+		}
 
-        // prompt for move
-        printf("Tile to move: ");
-        int tile = GetInt();
-        
-        // quit if user inputs 0 (for testing)
-        if (tile == 0)
-        {
-            break;
-        }
+		// prompt for move
+		printf("Tile to move: ");
+		int tile = GetInt();
+		
+		// quit if user inputs 0 (for testing)
+		if (tile == 0)
+		{
+			break;
+		}
 
-        // log move (for testing)
-        fprintf(file, "%i\n", tile);
-        fflush(file);
+		// log move (for testing)
+		fprintf(file, "%i\n", tile);
+		fflush(file);
 
-        // move if possible, else report illegality
-        if (!move(tile))
-        {
-            printf("\nIllegal move.\n");
-            usleep(500000);
-        }
+		// move if possible, else report illegality
+		if (!move(tile))
+		{
+			printf("\nIllegal move.\n");
+			usleep(500000);
+		}
 
-        // sleep thread for animation's sake
-        usleep(500000);
-    }
-    
-    // close log
-    fclose(file);
+		// sleep thread for animation's sake
+		usleep(500000);
+	}
+	
+	// close log
+	fclose(file);
 
-    // success
-    return 0;
+	// success
+	return 0;
 }
 
 /**
@@ -139,8 +139,9 @@ int main(int argc, string argv[])
  */
 void clear(void)
 {
-    printf("\033[2J");
-    printf("\033[%d;%dH", 0, 0);
+
+	printf("\033[2J");
+	printf("\033[%d;%dH", 0, 0);
 }
 
 /**
@@ -148,9 +149,9 @@ void clear(void)
  */
 void greet(void)
 {
-    clear();
-    printf("WELCOME TO GAME OF FIFTEEN\n");
-    usleep(2000000);
+	clear();
+	printf("WELCOME TO GAME OF FIFTEEN\n");
+	usleep(2000000);
 }
 
 /**
@@ -159,7 +160,25 @@ void greet(void)
  */
 void init(void)
 {
-    // TODO
+	// max tile value on board
+	int max = d * d - 1;
+
+	// initialize board from large to small tile
+	for (int i = 0; i < d; i++)
+	{
+		for (int j = 0; j < d; j++)
+		{
+			board[i][j] = max--;
+		}
+	}
+
+	// swap tile 1 and 2 if the dimension are even
+	if (d % 2 == 0)
+	{
+		int temp = board[d - 1][d - 2];
+		board[d - 1][d - 2] = board[d -1][d - 3];
+		board[d - 1][d - 3] = temp;
+	}
 }
 
 /**
@@ -167,7 +186,18 @@ void init(void)
  */
 void draw(void)
 {
-    // TODO
+	// draw board
+	for (int i = 0; i < d; i++)
+	{
+		for (int j = 0; j < d; j++)
+		{
+			if (board[i][j] == 0)
+				printf(" _");
+			else
+				printf("%2d ", board[i][j]);
+		}
+		printf("\n");
+	}
 }
 
 /**
@@ -176,8 +206,8 @@ void draw(void)
  */
 bool move(int tile)
 {
-    // TODO
-    return false;
+	// TODO
+	return false;
 }
 
 /**
@@ -186,6 +216,6 @@ bool move(int tile)
  */
 bool won(void)
 {
-    // TODO
-    return false;
+	// TODO
+	return false;
 }
