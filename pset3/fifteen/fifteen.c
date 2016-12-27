@@ -32,6 +32,10 @@ int board[DIM_MAX][DIM_MAX];
 // dimensions
 int d;
 
+// empty tile index
+int empx;
+int empy;
+
 // prototypes
 void clear(void);
 void greet(void);
@@ -179,6 +183,10 @@ void init(void)
 		board[d - 1][d - 2] = board[d -1][d - 3];
 		board[d - 1][d - 3] = temp;
 	}
+
+	// assign empty tile index
+	empx = d - 1;
+	empy = d - 1;
 }
 
 /**
@@ -192,12 +200,15 @@ void draw(void)
 		for (int j = 0; j < d; j++)
 		{
 			if (board[i][j] == 0)
-				printf(" _");
+				printf(" _ ");
 			else
 				printf("%2d ", board[i][j]);
 		}
 		printf("\n");
 	}
+
+	// UNCOMMENT FOR DEBUG
+	//printf("empty x: %d   empty y: %d\n", empx, empy);
 }
 
 /**
@@ -206,8 +217,43 @@ void draw(void)
  */
 bool move(int tile)
 {
-	// TODO
-	return false;
+	// max tile value on board
+	int max = d * d;
+
+	// test value range
+	if (tile > max || tile <= 0)
+		return false;
+
+	// index of choosen tile
+	int tilex, tiley;
+
+	// find index of choosen file on board
+	for (int i = 0; i < d; i++)
+	{
+		for (int j = 0; j < d; j++)
+		{
+			if (board[i][j] == tile)
+			{
+				tilex = j;
+				tiley = i;
+			}
+		}
+	}
+	
+	// test if empty tile adjacent to choosen tile
+	if (!(((abs(tilex - empx) == 0) && (abs(tiley - empy) == 1)) ||
+			((abs(tilex - empx) == 1) && (abs(tiley - empy) == 0))))
+		return false;
+
+	// if all test are done, swap choosen tile and empty tile
+	board[tiley][tilex] = 0;
+	board[empy][empx] = tile;
+
+	// assign empty tile to new position
+	empy = tiley;
+	empx = tilex;
+	
+	return true;
 }
 
 /**
