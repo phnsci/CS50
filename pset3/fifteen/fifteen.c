@@ -266,7 +266,7 @@ bool won(void)
 
 	for (int i = 0; i < d; i++)
 	{
-		for (in j = 0; j < d; j++)
+		for (int j = 0; j < d; j++)
 		{
 			if (temp < board[i][j])
 				return false;
