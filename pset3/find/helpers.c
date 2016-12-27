@@ -13,18 +13,29 @@
 
 /**
  * Returns true if value is in array of n values, else false.
+ * Binary Search
  */
 bool search(int value, int values[], int n)
 {
-	if (n <= 0)
-		return false;
+	int left = 0;
+	int right = n - 1;
+	int middle = (left + right) / 2;
 
-	for (int i = 0; i < n; i++)
-		if (values[i] == value)
+	while (left <= right) 
+	{
+		if (values[middle] < value)
+			left = middle + 1;
+		else if (values[middle] > value)
+			right = middle - 1;
+		else 
 			return true;
 
-	// if not find
-	return false;
+		middle = (left + right) / 2;
+	}
+
+	if (left > right)
+		return false;
+	return true;
 }
 
 /**
