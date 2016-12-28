@@ -9,5 +9,8 @@ copy: copy.c bmp.h
 whoduni: whodunit.c bmp.h
 	$(CC) $(FLAGS) -o whodunit whodunit.c 
 
+resize: resize.c bmp.h
+	$(CC) $(FLAGS) -o resize resize.c
+
 clean: 
-	rm -f *.o a.out whodunit copy
+	rm -f *.o a.out whodunit copy resize
