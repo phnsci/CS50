@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 	// ensure proper usage
 	if (argc != 4)
 	{
-		printf("Usage: ./copy infile outfile\n");
+		printf("Usage: ./resize n infile outfile\n");
 		return 1;
 	}
 
