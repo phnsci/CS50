@@ -13,16 +13,17 @@ typedef uint16_t WORD;			// 2 bytes
 typedef uint32_t DWORD;			// 4 bytes
 typedef int32_t  LONG;		
 
+// constant
+#define BLOCK_SIZE 128 // DWORD
+
 /**
 	* JPEG block size in bytes
 	*/
-#define BLOCK_SIZE 512
-
 typedef struct
 {
-	WORD bytes[BLOCK_SIZE];
+	DWORD dword[BLOCK_SIZE];
 } __attribute__((__packed__))
-BLOCK
+BLOCK;
 
 /**
 	* Signature of JPEG beginning block
@@ -32,3 +33,6 @@ DWORD signature[] = {0xffd8ffe0, 0xffd8ffe1, 0xffd8ffe2, 0xffd8ffe3,
 										 0xffd8ffe4, 0xffd8ffe5, 0xffd8ffe6, 0xffd8ffe7,
 										 0xffd8ffe8, 0xffd8ffe9, 0xffd8ffea, 0xffd8ffeb,
 										 0xffd8ffec, 0xffd8ffed, 0xffd8ffee, 0xffd8ffef};
+
+// size of signature array
+int sizeSig = 16;
