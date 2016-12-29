@@ -59,17 +59,21 @@ int main(int argc, char* argv[])
 
 	// determine infile biWidth
 	int infileBiWidth = bi.biWidth;
+	int infileBiHeight = abs(bi.biHeight);
 
 	// update outfile BITMAPINFOHEADER after resize
 	bi.biWidth *= n;
 	bi.biHeight *= n;
-	bi.biSize = bi.biWidth * bi.biHeight;
+	int biSize = bi.biWidth * abs(bi.biHeight);
+	bi.biSize = biSize;
 	int outfilePadding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-	bi.biSizeImage = ((bi.biWidth + outfilePadding) * (bi.biHeight)) * 
+	int biSizeImage = ((bi.biWidth + outfilePadding) * abs(bi.biHeight)) * 
 		(int)sizeof(RGBTRIPLE);
+	bi.biSizeImage = biSizeImage;
 
 	// update outfile BITMAPFILEHEADER after resize
-	bf.bfSize = bi.biSizeImage + 54;
+	int bfSize = bi.biSizeImage + 54;
+	bf.bfSize = bfSize;
 
 	// write outfile's BITMAPFILEHEADER
 	fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
@@ -78,8 +82,9 @@ int main(int argc, char* argv[])
 	fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
 	// iterate over infile's scanlines
-	for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
+	for (int i = 0; i < infileBiHeight; i++)
 	{
+		// duplicate each scanline n times
 		for (int w = 0; w < n; w++)
 		{
 			// iterate over each pixels in scanline
