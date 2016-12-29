@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 	// update outfile BITMAPINFOHEADER after resize
 	bi.biWidth *= n;
 	bi.biHeight *= n;
-	int biSize = bi.biWidth * abs(bi.biHeight);
+	int biSize = 40;
 	bi.biSize = biSize;
 	int outfilePadding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 	int biSizeImage = ((bi.biWidth + outfilePadding) * abs(bi.biHeight)) * 
