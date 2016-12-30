@@ -15,11 +15,12 @@ bool checkSignature(BLOCK );
 
 int main(int argc, char* argv[])
 {
-	// memory block
-	BLOCK block;
-
-	// infile string name
-	char* infile = "card.raw";
+	BLOCK block;									// memory block
+	char* infile = "card.raw"; 		// infile string name
+	char* outfile = malloc(7);		// output file name
+	int name = 0;									// output file name counter
+	bool isOpening = false;				// opening output file status
+	FILE* outptr = NULL;					// output file pointer
 
 	// open input file
 	FILE* inptr = fopen(infile, "r");
@@ -29,27 +30,55 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	// number of jpeg files
-	int num = 0;
-
 	// read infile in block of 512 BYTE or 128 DWORD
 	while (fread(&block, sizeof(block), 1, inptr) != 0)
 	{
-		
-		// if find the new signature
 		bool found = checkSignature(block);
-		
+	
+		// if found new signature
 		if (found)
 		{
-			printf("found: %d\n", num++);
+			// if the program already open an output file
+			if (isOpening)
+			{
+				// close that file
+				fclose(outptr);
+				isOpening = false;
+			}
+
+			// get the new output file jpg name
+			sprintf(outfile, "%03d.jpg", name++);
+
+			// open new file 
+			outptr = fopen(outfile, "w");
+			if (outptr == NULL)
+			{
+				printf("Could not open %s.\n", outfile);
+				return 2;
+			}
+			isOpening = true;
+		}
+
+		// if the output file is  opened 
+		if (isOpening == true && outptr != NULL)
+		{
+			// write to opened output file
+			fwrite(&block, sizeof(block), 1, outptr);
 		}
 	}
 
+	// close output file
+	if (isOpening && outptr != NULL)
+	{
+		fclose(outptr);
+		isOpening = false;
+	}
+
+	// close input file
+	fclose(inptr);
+
 	return 0;		
 }
-
-
-int addr = 0;
 
 /**
 	* Check block signature
