@@ -7,4 +7,4 @@ recover: recover.c jpg.h
 	$(CC) $(FLAGS) -o recover recover.c jpg.h
 
 clean: 
-	rm -f *.o a.out recover
+	rm -f *.o a.out recover *.jpg
