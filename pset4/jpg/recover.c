@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 {
 	BLOCK block;									// memory block
 	char* infile = "card.raw"; 		// infile string name
-	char* outfile = malloc(7);		// output file name
+	char* outfile = malloc(8);		// output file name
 	int name = 0;									// output file name counter
 	bool isOpening = false;				// opening output file status
 	FILE* outptr = NULL;					// output file pointer
@@ -74,6 +74,8 @@ int main(int argc, char* argv[])
 		isOpening = false;
 	}
 
+	free(outfile);
+
 	// close input file
 	fclose(inptr);
 
@@ -98,5 +100,6 @@ bool checkSignature(BLOCK block)
 				b2 == signature[i][2] && b3 == signature[i][3])
 			return true;
 	}
+
 	return false;
 }
