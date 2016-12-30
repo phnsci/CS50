@@ -1,7 +1,7 @@
 CC = gcc
 FLAGS = -ggdb3 -Wall -Werror -std=c11
 
-all: copy whodunit
+all: copy whodunit resize
 
 copy: copy.c bmp.h
 	$(CC) $(FLAGS) -o copy copy.c 
