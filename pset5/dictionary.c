@@ -48,22 +48,28 @@ bool load(const char* dictionary)
 	{
 		node* temp;
 		temp = root;
+
+		int length = strlen(word) - 1;
 		// iterate each characters
-		for (int i = 0; i < strlen(word); i++)
+		for (int i = 0; i < length; i++)
 		{
-			// get index of each character
-			int index = word[i] - 'a';
+			int index = 0;
+			// if get SPECIAL character
+			if (word[i] == '\'')
+				index = ALPHA - 1;
+			else
+				index = word[i] - 'a';
 
 			// allocate memory if the node at given index is empty
 			if (temp->arr[index] == NULL)
 				temp->arr[index] = malloc(sizeof(node));
 			
 			// traverse in the tries if the word is not finished
-			if (i < strlen(word) - 1)
+			if (i < length - 1)
 				temp = temp->arr[index];
 			// else set is_word to true
 			else
-				temp->is_word = true;
+				temp->arr[index]->is_word = true;
 		}
 	}
 
