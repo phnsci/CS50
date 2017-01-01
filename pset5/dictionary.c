@@ -7,7 +7,10 @@
  * Implements a dictionary's functionality.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "dictionary.h"
 
@@ -25,8 +28,49 @@ bool check(const char* word)
  */
 bool load(const char* dictionary)
 {
-    // TODO
-    return false;
+    // open dictionary
+	FILE* dict = fopen(dictionary, "r");
+	if (dict == NULL)
+	{
+		printf("Cannot load dictionary\n");
+		return false;
+	}
+
+	// initialize tries root node
+	node *root = malloc(sizeof(node));
+
+	// initialize dictionary word
+	char *word = malloc(sizeof(char) * LENGTH);
+
+	// read each words in dictionary
+	// and build a tries data structure
+	while (fgets(word, LENGTH, dict) != NULL)
+	{
+		node* temp;
+		temp = root;
+		// iterate each characters
+		for (int i = 0; i < strlen(word); i++)
+		{
+			// get index of each character
+			int index = word[i] - 'a';
+
+			// allocate memory if the node at given index is empty
+			if (temp->arr[index] == NULL)
+				temp->arr[index] = malloc(sizeof(node));
+			
+			// traverse in the tries if the word is not finished
+			if (i < strlen(word) - 1)
+				temp = temp->arr[index];
+			// else set is_word to true
+			else
+				temp->is_word = true;
+		}
+	}
+
+	// close dictionay
+	fclose(dict);
+
+	return true;
 }
 
 /**
