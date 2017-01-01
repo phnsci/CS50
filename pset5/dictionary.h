@@ -14,8 +14,8 @@
 
 // maximum length for a word
 // (e.g., pneumonoultramicroscopicsilicovolcanoconiosis)
-#define LENGTH 45
-#define ALPHA 26
+#define LENGTH 45		// longest word in dictionary
+#define ALPHA 27		// 26 alphabet characters plus 1 special character
 
 /**
   * Tries data structure
