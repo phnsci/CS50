@@ -15,6 +15,16 @@
 // maximum length for a word
 // (e.g., pneumonoultramicroscopicsilicovolcanoconiosis)
 #define LENGTH 45
+#define ALPHA 26
+
+/**
+  * Tries data structure
+  */
+typedef struct node
+{
+	bool is_word;
+	struct node* arr[ALPHA];
+} node;
 
 /**
  * Returns true if word is in dictionary else false.
