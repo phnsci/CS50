@@ -51,4 +51,9 @@ unsigned int size(void);
  */
 bool unload(void);
 
+/**
+  * Unload individual elements in node's array
+  */
+void unload_element(node *n);
+
 #endif // DICTIONARY_H
