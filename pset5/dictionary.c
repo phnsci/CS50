@@ -103,6 +103,9 @@ bool load(const char* dictionary)
 		// increment number of words
 		num_word++;
 	}
+	
+	// free memory storing word
+	free(word);
 
 	// close dictionay
 	fclose(dict);
