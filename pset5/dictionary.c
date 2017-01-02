@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "dictionary.h"
 
@@ -19,8 +20,32 @@
  */
 bool check(const char* word)
 {
-    // TODO
-    return false;
+	// initialize temp node
+	node* temp;
+	temp = root;
+
+	// check each character in string
+	for (int i = 0; i < strlen(word); i++)
+	{	
+		int index = 0;
+		if (word[i] == '\'')
+			index = ALPHA - 1;
+		else
+			index = tolower(word[i]) - 'a';
+	
+		// if the string not appear in the dictionary
+		if (temp->arr[index] == NULL)
+			return false;
+
+		// keep iterate through the tries
+		temp = temp->arr[index];
+	}
+
+	// check is_word flag at the end of each string 
+	if (temp->is_word) 
+		return true;
+	else
+		return false;
 }
 
 /**
@@ -37,7 +62,7 @@ bool load(const char* dictionary)
 	}
 
 	// initialize tries root node
-	node *root = malloc(sizeof(node));
+	root = malloc(sizeof(node));
 
 	// initialize dictionary word
 	char *word = malloc(sizeof(char) * LENGTH);

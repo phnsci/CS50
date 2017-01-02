@@ -14,7 +14,7 @@
 
 // maximum length for a word
 // (e.g., pneumonoultramicroscopicsilicovolcanoconiosis)
-#define LENGTH 45		// longest word in dictionary
+#define LENGTH 46		// longest word in dictionary
 #define ALPHA 27		// 26 alphabet characters plus 1 special character
 
 /**
@@ -25,6 +25,11 @@ typedef struct node
 	bool is_word;
 	struct node* arr[ALPHA];
 } node;
+
+/**
+  * Initialize Tries root node
+  */
+node *root;
 
 /**
  * Returns true if word is in dictionary else false.
