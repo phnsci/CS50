@@ -15,6 +15,9 @@
 
 #include "dictionary.h"
 
+// number of words in dictionary
+int num_word = 0;
+
 /**
  * Returns true if word is in dictionary else false.
  */
@@ -96,6 +99,9 @@ bool load(const char* dictionary)
 			else
 				temp->arr[index]->is_word = true;
 		}
+
+		// increment number of words
+		num_word++;
 	}
 
 	// close dictionay
@@ -109,8 +115,7 @@ bool load(const char* dictionary)
  */
 unsigned int size(void)
 {
-    // TODO
-    return 0;
+    return num_word;
 }
 
 /**
@@ -118,6 +123,24 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-    // TODO
-    return false;
+	unload_element(root);
+    
+    return true;
 }
+
+/**
+  * Unload individual elements in node's array
+  */
+void unload_element(node *n)
+{
+	// search for exist node in array
+	for (int i = 0; i < ALPHA; i++)
+	{
+		if (n->arr[i] != NULL)
+			unload_element(n->arr[i]);
+	}
+
+	// free memory comprised by node
+	free(n);
+}
+		
