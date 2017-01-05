@@ -621,20 +621,17 @@ bool load(FILE* file, BYTE** content, size_t* length)
 const char* lookup(const char* path)
 {
 	// locate the file extension (eg: ".html")
-	char *haystack = path;
+	const char *haystack = path;
 	char *neddle = strstr(haystack, ".");
 
-	switch(neddle)
-	{
-		case ".css" : return "text/css";
-		case ".html": return "text/html";
-		case ".gif" : return "image/gif";
-		case ".ico" : return "image/x-icon";
-		case ".jpg"	: return "image/jpg";
-		case ".js"  : return "text/javascript";
-		case ".php" : return "text/x-php";
-		case ".png" : return "image/png";
-	}
+	if (strcmp(neddle, ".css") == 0)  return "text/css";
+	if (strcmp(neddle, ".html") == 0) return "text/html";
+	if (strcmp(neddle, ".gif") == 0)  return "image/gif";
+	if (strcmp(neddle, ".ico") == 0)  return "image/x-icon";
+	if (strcmp(neddle, ".jpg") == 0)  return "image/jpg";
+	if (strcmp(neddle, ".js") == 0)   return "text/javascript";
+	if (strcmp(neddle, ".php") == 0)  return "text/x-php";
+	if (strcmp(neddle, ".png") == 0)  return "image/png";
 
     return NULL;
 }
@@ -651,7 +648,7 @@ bool parse(const char* line, char* abs_path, char* query)
 	char version[10];					// placeholder for request HTTP version
 	char c[10];								
 
-	int check = sscanf(line, "%s %s %s\r\n%s", method, path, version, &c);
+	int check = sscanf(line, "%s %s %s\r\n%s", method, path, version, c);
 
 	// check request-line format
 	if (check != 3)
@@ -661,7 +658,7 @@ bool parse(const char* line, char* abs_path, char* query)
 	}
 
 	// check request-line method
-	if (strncpm(method, "GET", 3) != 0)
+	if (strcmp(method, "GET") != 0)
 	{
 		error(405);
 		return false;
@@ -675,7 +672,8 @@ bool parse(const char* line, char* abs_path, char* query)
 	}
 
 	// check request-target URI special character
-	if (char *p = strchr(path, '"') != NULL)
+	char *p = strchr(path, '"');
+	if (p != NULL)
 	{
 		error(400);
 		return false;
