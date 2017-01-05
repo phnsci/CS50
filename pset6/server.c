@@ -646,9 +646,72 @@ const char* lookup(const char* path)
  */
 bool parse(const char* line, char* abs_path, char* query)
 {
-    // TODO
-    error(501);
-    return false;
+	char method[10];					// placeholder for request method
+	char path[LimitRequestLine + 1];	// placeholder for request URI path
+	char version[10];					// placeholder for request HTTP version
+	char c[10];								
+
+	int check = sscanf(line, "%s %s %s\r\n%s", method, path, version, &c);
+
+	// check request-line format
+	if (check != 3)
+	{
+		error(400);
+		return false;
+	}
+
+	// check request-line method
+	if (strncpm(method, "GET", 3) != 0)
+	{
+		error(405);
+		return false;
+	}
+
+	// check request-target URI first character
+	if (path[0] != '/')
+	{
+		error(501);
+		return false;
+	}
+
+	// check request-target URI special character
+	if (char *p = strchr(path, '"') != NULL)
+	{
+		error(400);
+		return false;
+	}
+
+	// check HTTP version
+	if (strcmp(version, "HTTP/1.1") != 0)
+	{
+		error(505);
+		return false;
+	}
+
+    // find the begining of query string
+	char *haystack = line;
+	char *neddle = strstr(haystack, "&");
+
+	// if no query in request line
+	if (neddle == NULL)
+	{
+		// parse all line to abs_path
+		strncpy(abs_path, path, strlen(path));
+		abs_path[strlen(path)] = '\0';
+	}
+	// if query exists in request line
+	else 
+	{
+		// parse abs_path first
+		strncpy(abs_path, path, neddle - path - 1);
+		abs_path[neddle - path] = '\0';
+
+		// then parse query
+		neddle++;
+		strcpy(query, neddle);
+	}
+		
+    return true;
 }
 
 /**
