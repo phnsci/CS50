@@ -173,6 +173,8 @@ int main(int argc, char* argv[])
                     error(500);
                     continue;
                 }
+
+				// copy message to line
                 char line[needle - haystack + 2 + 1];
                 strncpy(line, haystack, needle - haystack + 2);
                 line[needle - haystack + 2] = '\0';
@@ -618,7 +620,22 @@ bool load(FILE* file, BYTE** content, size_t* length)
  */
 const char* lookup(const char* path)
 {
-    // TODO
+	// locate the file extension (eg: ".html")
+	char *haystack = path;
+	char *neddle = strstr(haystack, ".");
+
+	switch(neddle)
+	{
+		case ".css" : return "text/css";
+		case ".html": return "text/html";
+		case ".gif" : return "image/gif";
+		case ".ico" : return "image/x-icon";
+		case ".jpg"	: return "image/jpg";
+		case ".js"  : return "text/javascript";
+		case ".php" : return "text/x-php";
+		case ".png" : return "image/png";
+	}
+
     return NULL;
 }
 
