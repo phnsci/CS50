@@ -689,7 +689,7 @@ bool parse(const char* line, char* abs_path, char* query)
 	}
 
     // find the begining of query string
-	char *haystack = line;
+	char *haystack = path;
 	char *neddle = strstr(haystack, "&");
 
 	// if no query in request line
@@ -703,8 +703,8 @@ bool parse(const char* line, char* abs_path, char* query)
 	else 
 	{
 		// parse abs_path first
-		strncpy(abs_path, path, neddle - path - 1);
-		abs_path[neddle - path] = '\0';
+		strncpy(abs_path, path, neddle - &path[0]);
+		abs_path[neddle - &path[0]] = '\0';
 
 		// then parse query
 		neddle++;
