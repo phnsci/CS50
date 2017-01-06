@@ -611,8 +611,68 @@ void list(const char* path)
  */
 bool load(FILE* file, BYTE** content, size_t* length)
 {
-    // TODO
-    return false;
+	if (file == NULL)
+		return false;
+
+	// temporary buffer
+	char* buffer = NULL;
+
+	// capacity of buffer
+	unsigned int capacity = 0;
+
+	// actual number of chars in buffer
+	unsigned int n = 0;
+
+	// character read
+	char c;
+
+	while ((c = fgetc(file))!= EOF)
+	{
+		// extend buffer capacity if necessary
+		if (n + 1 > capacity)
+		{
+			// initialize buffer capacity to 32
+			if (capacity == 0)
+			{
+				capacity = 32;
+				buffer = malloc(capacity * sizeof(char ));
+			}
+			// double buffer capacity 
+			else if (capacity <= (UINT_MAX / 2))
+				capacity *= 2;
+			// return false if the file is too large
+			else
+			{
+				free(buffer);
+				return false;
+			}
+		
+			// extend buffer capacity
+			char* temp = realloc(buffer, capacity * sizeof(char ));
+			if (temp == NULL)
+			{
+				free(buffer);
+				return false;
+			}
+		}
+
+		// append newly read char in buffer
+		buffer[n++] = c;
+	}
+
+	// minimize buffer
+	char* min = malloc((n + 1) * sizeof(char));
+
+	// copy data in buffer to min
+	strncpy(min, buffer, n);
+	min[n] = '\0';
+	free(buffer);
+
+	// assign content address and file length
+	content = &min;
+	*length = n;
+
+	return true;
 }
 
 /**
@@ -696,6 +756,9 @@ bool parse(const char* line, char* abs_path, char* query)
 		// parse all line to abs_path
 		strncpy(abs_path, path, strlen(path));
 		abs_path[strlen(path)] = '\0';
+
+		// parse query
+		query[0] = '\0';	
 	}
 	// if query exists in request line
 	else 
