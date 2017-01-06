@@ -446,7 +446,33 @@ char* htmlspecialchars(const char* s)
  */
 char* indexes(const char* path)
 {
-    // TODO
+	// path
+	char *p = NULL;
+	DIR 		  *d;	
+	struct dirent *dir;
+	d = opendir(path);
+
+	if (d)
+	{
+		while ((dir = readdir(d)) != NULL)
+		{
+			// if found index.html or index.php
+			if ((strcmp(dir->d_name, "index.html") == 0) || 
+				(strcmp(dir->d_name, "index.php") == 0))
+			{
+				// allocate memory for path string
+				p = malloc(strlen(path) + strlen(dir->d_name) + 1);
+
+				// concatenate path and d_name
+				strncpy(p, path, strlen(path));
+				strcat(p, dir->d_name);
+				p[strlen(path) + strlen(dir->d_name)] = '\0';
+
+				return p;
+			}
+		}
+	}
+
     return NULL;
 }
 
